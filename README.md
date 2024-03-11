@@ -288,8 +288,8 @@ python main.py
 
 step00〜step40までコードをPython化
 
-- [ ] step00
-- [ ] step01
+- [x] step00
+- [x] step01
 - [ ] step02
 - [ ] step03
 - [ ] step04
