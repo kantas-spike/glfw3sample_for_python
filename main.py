@@ -92,6 +92,20 @@ def create_program(vsrc, fsrc):
     return 0
 
 
+# シェーダのソースファイルを読み込む
+#   src_path: シェーダのソースファイル
+def read_shader_source(src_path):
+    with open(src_path) as f:
+        return f.read()
+
+
+# シェーダのソースファイルを読み込んでプログラムオブジェクトを作成する
+#   vsrc_path: バーテックスシェーダのソースファイル
+#   fsrc_path: フラグメントシェーダのソースファイル
+def load_program(vsrc_path, fsrc_path):
+    return create_program(read_shader_source(vsrc_path), read_shader_source(fsrc_path))
+
+
 def main():
     # GLFW を初期化する
     if not glfw.init():
@@ -124,27 +138,8 @@ def main():
     # 背景色を指定する
     gl.glClearColor(1.0, 1.0, 1.0, 0.0)
 
-    # バーテックスシェーダのソースプログラム
-    vsrc = """
-#version 150 core
-in vec4 position;
-void main(void)
-{
-    gl_Position = position;
-}
-"""
-
-    fsrc = """
-#version 150 core
-out vec4 fragment;
-void main(void)
-{
-    fragment = vec4(1.0, 0.0, 0.0, 1.0);
-}
-"""
-
     # プログラムオブジェクトを作成する
-    program = create_program(vsrc, fsrc)
+    program = load_program("point.vert", "point.frag")
 
     # ウィンドウが開いている間繰り返す
     while glfw.window_should_close(window) == gl.GL_FALSE:
