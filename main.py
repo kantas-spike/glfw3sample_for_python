@@ -18,6 +18,37 @@ def setup_logger(name):
 logger = setup_logger("main.py")
 
 
+# シェーダオブジェクトのコンパイル結果を表示する
+#   shader: シェーダオブジェクト名
+#   str: コンパイルエラーが発生した場所を示す文字列
+def print_shader_info_log(shader, name):
+    # コンパイル結果を取得する
+    status = gl.glGetShaderiv(shader, gl.GL_COMPILE_STATUS)
+    if status == gl.GL_FALSE:
+        logger.error(f"Compile error in {name}")
+
+    # シェーダのコンパイル時のログを取得する
+    shader_log = gl.glGetShaderInfoLog(shader)
+    if shader_log:
+        logger.error(shader_log.decode("utf-8"))
+
+    return status != gl.GL_FALSE
+
+
+# プログラムオブジェクトのリンク結果を表示する
+#    program: プログラムオブジェクト名
+def print_program_info_log(program):
+    # リンク結果を取得する
+    status = gl.glGetProgramiv(program, gl.GL_LINK_STATUS)
+    if status == gl.GL_FALSE:
+        # シェーダのリンク時のログを取得する
+        program_log = gl.glGetProgramInfoLog(program)
+        if program_log:
+            logger.error(f"program: link error\n{program_log.decode('utf-8')}")
+
+    return status != gl.GL_FALSE
+
+
 # プログラムオブジェクトを作成する
 #   vsrc: バーテックスシェーダのソースプログラムの文字列
 #   fsrc: フラグメントシェーダのソースプログラムの文字列
@@ -32,7 +63,8 @@ def create_program(vsrc, fsrc):
         gl.glCompileShader(vobj)
 
         # バーテックスシェーダのシェーダオブジェクトをプログラムオブジェクトに組み込む
-        gl.glAttachShader(program, vobj)
+        if print_shader_info_log(vobj, "vertex shader"):
+            gl.glAttachShader(program, vobj)
         gl.glDeleteShader(vobj)
 
     if fsrc:
@@ -42,7 +74,8 @@ def create_program(vsrc, fsrc):
         gl.glCompileShader(fobj)
 
         # フラグメントシェーダのシェーダオブジェクトをプログラムオブジェクトに組み込む
-        gl.glAttachShader(program, fobj)
+        if print_shader_info_log(fobj, "fragment shader"):
+            gl.glAttachShader(program, fobj)
         gl.glDeleteShader(fobj)
 
     # プログラムオブジェクトをリンクする
@@ -51,7 +84,12 @@ def create_program(vsrc, fsrc):
     gl.glLinkProgram(program)
 
     # 作成したプログラムオブジェクトを返す
-    return program
+    if print_program_info_log(program):
+        return program
+
+    # プログラムオブジェクトが作成できなければ 0 を返す
+    gl.glDeleteProgram(program)
+    return 0
 
 
 def main():
