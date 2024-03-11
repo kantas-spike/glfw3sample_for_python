@@ -292,7 +292,7 @@ step00〜step40までコードをPython化
 - [x] step01
 - [x] step02
 - [x] step03
-- [ ] step04
+- [x] step04
 - [ ] step05
 - [ ] step06
 - [ ] step07
