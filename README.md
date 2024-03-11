@@ -288,7 +288,7 @@ python main.py
 
 step00〜step40までコードをPython化
 
-- [ ] step00
+- [x] step00
 - [ ] step01
 - [ ] step02
 - [ ] step03
