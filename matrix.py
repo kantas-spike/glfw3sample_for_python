@@ -60,6 +60,53 @@ def rotate(a, x, y, z):
     return t
 
 
+def look_at(ex, ey, ez, gx, gy, gz, ux, uy, uz):
+    # 平行移動の変換行列
+    tv = translate(-ex, -ey, -ez)
+
+    # t 軸 = e - g
+    tx = ex - gx
+    ty = ey - gy
+    tz = ez - gz
+
+    # r 軸 = u x t 軸
+    rx = uy * tz - uz * ty
+    ry = uz * tx - ux * tz
+    rz = ux * ty - uy * tx
+
+    # s 軸 = t 軸 x r 軸
+    sx = ty * rz - tz * ry
+    sy = tz * rx - tx * rz
+    sz = tx * ry - ty * rx
+
+    # s 軸の長さのチェック
+    s2 = sx * sx + sy * sy + sz * sz
+    if s2 == 0.0:
+        return tv
+
+    # 回転の変換行列
+    rv = identity()
+
+    # r 軸を正規化して配列変数に格納
+    r = math.sqrt(rx * rx + ry * ry + rz * rz)
+    rv[0, 0] = rx / r
+    rv[0, 1] = ry / r
+    rv[0, 2] = rz / r
+    # s 軸を正規化して配列変数に格納
+    s = math.sqrt(s2)
+    rv[1, 0] = sx / s
+    rv[1, 1] = sy / s
+    rv[1, 2] = sz / s
+    # t 軸を正規化して配列変数に格納
+    t = math.sqrt(tx * tx + ty * ty + tz * tz)
+    rv[2, 0] = tx / t
+    rv[2, 1] = ty / t
+    rv[2, 2] = tz / t
+
+    # 視点の平行移動の変換行列に視線の回転の変換行列を乗じる
+    return rv @ tv
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG,

@@ -145,7 +145,7 @@ def main():
     program = load_program("point.vert", "point.frag")
 
     # uniform 変数の場所を取得する
-    model_loc = gl.glGetUniformLocation(program, "model")
+    modelview_loc = gl.glGetUniformLocation(program, "modelview")
 
     # 図形データを作成する
     shape = Shape(rectangle_vertex)
@@ -170,8 +170,14 @@ def main():
         # モデルの変換行列を求める
         model = translation @ scaling
 
+        # ビュー変換行列を求める
+        view = matrix.look_at(0.0, 0.0, 0.0, -1.0, -1.0, -1.0, 0.0, 1.0, 0.0)
+
+        # モデルビュー変換行列を求める
+        modelview = view @ model
+
         # uniform 変数に値を設定する
-        gl.glUniformMatrix4fv(model_loc, 1, gl.GL_FALSE, model.T)
+        gl.glUniformMatrix4fv(modelview_loc, 1, gl.GL_FALSE, modelview.T)
 
         # 図形を描画する
         shape.draw()
