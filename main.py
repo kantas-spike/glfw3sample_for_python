@@ -164,7 +164,7 @@ def main():
         scale = window.scale * 2.0
         w = size[0] / scale
         h = size[1] / scale
-        projection = matrix.orthogonal(-w, w, -h, h, 1.0, 10.0)
+        projection = matrix.frustum(-w, w, -h, h, 1.0, 10.0)
 
         # モデル変換行列を求める
         locaion = window.location

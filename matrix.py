@@ -125,6 +125,25 @@ def orthogonal(left, right, bottom, top, z_near, z_far):
         return np.zeros((4, 4))
 
 
+# 透視投影変換行列を作成する
+def frustum(left, right, bottom, top, z_near, z_far):
+    dx = right - left
+    dy = top - bottom
+    dz = z_far - z_near
+    t = np.zeros((4, 4))
+    if dx != 0.0 and dy != 0.0 and dz != 0.0:
+        t = identity()
+        t[0, 0] = 2.0 * z_near / dx
+        t[0, 2] = (right + left) / dx
+        t[1, 1] = 2.0 * z_near / dy
+        t[1, 2] = (top + bottom) / dy
+        t[2, 2] = -(z_far + z_near) / dz
+        t[2, 3] = -2.0 * z_far * z_near / dz
+        t[3, 2] = -1.0
+
+    return t
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG,
