@@ -295,7 +295,7 @@ step00〜step40までコードをPython化
 - [x] step04
 - [x] step05
 - [x] step06
-- [ ] step07
+- [x] step07: uniform変数 aspect を導入し、ウィンドウサイズに関わらず正方形を描画させる
 - [ ] step08
 - [ ] step09
 - [ ] step10
