@@ -288,8 +288,8 @@ python main.py
 
 step00〜step40までコードをPython化
 
-- [x] step00
-- [x] step01
+- [x] step00: python main.pyで起動できる、空のプログラムを作成.
+- [x] step01: glfwによるウィンドウ作成とプログラマブルシェーダーの仕組みを用意.(ただし、描画処理は未実装)
 - [ ] step02
 - [ ] step03
 - [ ] step04
