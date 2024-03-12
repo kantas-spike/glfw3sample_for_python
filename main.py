@@ -10,16 +10,15 @@ from shape import Shape
 from window import Window
 
 
-def setup_logger(name):
+def setup_logger():
     logging.basicConfig(
         level=logging.DEBUG,
         format="%(asctime)s %(name)s %(funcName)s %(levelname)s %(message)s",
     )
-    logger = logging.getLogger(name)
-    return logger
 
 
-logger = setup_logger("main.py")
+setup_logger()
+logger = logging.getLogger(__name__)
 
 
 # シェーダオブジェクトのコンパイル結果を表示する
@@ -117,6 +116,7 @@ rectangle_vertex = np.array(
 
 
 def main():
+    logger.info("start..")
     # GLFW を初期化する
     if not glfw.init():
         logger.error("Can't initialize GLFW")
