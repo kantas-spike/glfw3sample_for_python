@@ -16,6 +16,8 @@ class Window:
         self.scale = 100.0
         # 図形の正規化デバイス座標系上での位置
         self.location = [0, 0]
+        # キーボードの状態
+        self.key_status = glfw.RELEASE
 
         if not self.window:
             logger.error("Can't create GLFW window.")
@@ -25,6 +27,8 @@ class Window:
         glfw.set_window_size_callback(self.window, Window.resize)
         # マウスホイール操作時に呼び出す処理の登録
         glfw.set_scroll_callback(self.window, Window.wheel)
+        # キーボード操作時に呼び出す処理の登録
+        glfw.set_key_callback(self.window, Window.keyboard)
 
         # このインスタンスの this ポインタを記録しておく
         # (glfwのwindowと、本クラスのインスタンス(self)を関連付ける)
@@ -57,7 +61,10 @@ class Window:
     # 描画ループ継続判定
     def should_close(self):
         # イベントを取り出す
-        glfw.poll_events()
+        if self.key_status == glfw.RELEASE:
+            glfw.wait_events()
+        else:
+            glfw.poll_events()
 
         # キーボードの状態を調べる
         if glfw.get_key(self.window, glfw.KEY_LEFT) != glfw.RELEASE:
@@ -102,9 +109,18 @@ class Window:
             context.size[0] = width
             context.size[1] = height
 
+    # マウスホイール操作時の処理
     @staticmethod
     def wheel(window, x, y):
         # glfwのwindowに関連付いたインスタンスを取得する
         context: Window = glfw.get_window_user_pointer(window)
         if context:
             context.scale += y
+
+    # キーボード操作時の処理
+    @staticmethod
+    def keyboard(window, key, scancode, action, mods):
+        # glfwのwindowに関連付いたインスタンスを取得する
+        context: Window = glfw.get_window_user_pointer(window)
+        if context:
+            context.key_status = action
