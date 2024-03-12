@@ -288,13 +288,13 @@ python main.py
 
 step00〜step40までコードをPython化
 
-- [x] step00
-- [x] step01
-- [x] step02
-- [x] step03
-- [x] step04
-- [x] step05
-- [x] step06
+- [x] step00: python main.pyで起動できる、空のプログラムを作成.
+- [x] step01: glfwによるウィンドウ作成とプログラマブルシェーダーの仕組みを用意.(ただし、描画処理は未実装)
+- [x] step02: プログラマブルシェーダーにvertexとfragmentの各シェーダー用のソースを渡し利用可能にする.
+- [x] step03: シェーダー用ソースのコンパイルエラーやシェーダーリンク時のエラーを出力可能にする.
+- [x] step04: シェーダー用ソースを外部ファイルから読み込むように修正.
+- [x] step05: 頂点データから矩形を描画.
+- [x] step06: 独自のWindowクラスを用意し、window描画やUI操作関連処理をまとめる.
 - [ ] step07
 - [ ] step08
 - [ ] step09
