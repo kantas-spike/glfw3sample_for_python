@@ -294,7 +294,7 @@ step00〜step40までコードをPython化
 - [x] step03
 - [x] step04
 - [x] step05
-- [ ] step06
+- [x] step06
 - [ ] step07
 - [ ] step08
 - [ ] step09
