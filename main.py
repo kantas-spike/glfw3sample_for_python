@@ -4,6 +4,9 @@ import sys
 
 import glfw
 import OpenGL.GL as gl
+import numpy as np
+
+from shape import Shape
 
 
 def setup_logger(name):
@@ -106,6 +109,12 @@ def load_program(vsrc_path, fsrc_path):
     return create_program(read_shader_source(vsrc_path), read_shader_source(fsrc_path))
 
 
+# 矩形の頂点の位置
+rectangle_vertex = np.array(
+    [[-0.5, -0.5], [0.5, -0.5], [0.5, 0.5], [-0.5, 0.5]], dtype=gl.GLfloat
+)
+
+
 def main():
     # GLFW を初期化する
     if not glfw.init():
@@ -141,6 +150,9 @@ def main():
     # プログラムオブジェクトを作成する
     program = load_program("point.vert", "point.frag")
 
+    # 図形データを作成する
+    shape = Shape(rectangle_vertex)
+
     # ウィンドウが開いている間繰り返す
     while glfw.window_should_close(window) == gl.GL_FALSE:
         # ウィンドウを消去する
@@ -149,9 +161,8 @@ def main():
         # シェーダプログラムの使用開始
         gl.glUseProgram(program)
 
-        #
-        # ここで描画処理を行う
-        #
+        # 図形を描画する
+        shape.draw()
 
         # カラーバッファを入れ替える
         glfw.swap_buffers(window)
