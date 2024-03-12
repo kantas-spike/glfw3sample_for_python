@@ -57,11 +57,14 @@ class Window:
         # イベントを取り出す
         glfw.wait_events()
 
-        # マウスカーソルの位置を取得する
-        x, y = glfw.get_cursor_pos(self.window)
-        self.location[0] = x * 2.0 / self.size[0] - 1.0
-        self.location[1] = 1.0 - y * 2.0 / self.size[1]
-        # logger.info(f"cursor: {x, y} => loc: {self.location}")
+        # マウスの左ボタンの状態を調べる
+        if glfw.get_mouse_button(self.window, glfw.MOUSE_BUTTON_1) != glfw.RELEASE:
+            # マウスカーソルの位置を取得する
+            x, y = glfw.get_cursor_pos(self.window)
+            # マウスカーソルの正規化デバイス座標系上での位置を求める
+            self.location[0] = x * 2.0 / self.size[0] - 1.0
+            self.location[1] = 1.0 - y * 2.0 / self.size[1]
+            # logger.info(f"cursor: {x, y} => loc: {self.location}")
 
         # ウィンドウを閉じる必要がなければ true を返す
         return glfw.window_should_close(self.window)
