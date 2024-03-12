@@ -6,6 +6,7 @@ import glfw
 import OpenGL.GL as gl
 import numpy as np
 
+import matrix
 from shape import Shape
 from window import Window
 
@@ -144,9 +145,7 @@ def main():
     program = load_program("point.vert", "point.frag")
 
     # uniform 変数の場所を取得する
-    size_loc = gl.glGetUniformLocation(program, "size")
-    scale_loc = gl.glGetUniformLocation(program, "scale")
-    location_loc = gl.glGetUniformLocation(program, "location")
+    model_loc = gl.glGetUniformLocation(program, "model")
 
     # 図形データを作成する
     shape = Shape(rectangle_vertex)
@@ -159,10 +158,20 @@ def main():
         # シェーダプログラムの使用開始
         gl.glUseProgram(program)
 
+        # 拡大縮小の変換行列を求める
+        size = window.size
+        scale = window.scale * 2.0
+        scaling = matrix.scale(scale / size[0], scale / size[1], 1.0)
+
+        # 平行移動の変換行列を求める
+        position = window.location
+        translation = matrix.translate(position[0], position[1], 0.0)
+
+        # モデルの変換行列を求める
+        model = translation @ scaling
+
         # uniform 変数に値を設定する
-        gl.glUniform2fv(size_loc, 1, window.size)
-        gl.glUniform1f(scale_loc, window.scale)
-        gl.glUniform2fv(location_loc, 1, window.location)
+        gl.glUniformMatrix4fv(model_loc, 1, gl.GL_FALSE, model.T)
 
         # 図形を描画する
         shape.draw()
