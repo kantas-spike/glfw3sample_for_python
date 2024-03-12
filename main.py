@@ -146,6 +146,7 @@ def main():
 
     # uniform 変数の場所を取得する
     modelview_loc = gl.glGetUniformLocation(program, "modelview")
+    projection_loc = gl.glGetUniformLocation(program, "projection")
 
     # 図形データを作成する
     shape = Shape(rectangle_vertex)
@@ -158,25 +159,25 @@ def main():
         # シェーダプログラムの使用開始
         gl.glUseProgram(program)
 
-        # 拡大縮小の変換行列を求める
+        # 直交投影変換行列を求める
         size = window.size
         scale = window.scale * 2.0
-        scaling = matrix.scale(scale / size[0], scale / size[1], 1.0)
+        w = size[0] / scale
+        h = size[1] / scale
+        projection = matrix.orthogonal(-w, w, -h, h, 1.0, 10.0)
 
-        # 平行移動の変換行列を求める
-        position = window.location
-        translation = matrix.translate(position[0], position[1], 0.0)
-
-        # モデルの変換行列を求める
-        model = translation @ scaling
+        # モデル変換行列を求める
+        locaion = window.location
+        model = matrix.translate(locaion[0], locaion[1], 0.0)
 
         # ビュー変換行列を求める
-        view = matrix.look_at(0.0, 0.0, 0.0, -1.0, -1.0, -1.0, 0.0, 1.0, 0.0)
+        view = matrix.look_at(3.0, 4.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 
         # モデルビュー変換行列を求める
         modelview = view @ model
 
         # uniform 変数に値を設定する
+        gl.glUniformMatrix4fv(projection_loc, 1, gl.GL_FALSE, projection.T)
         gl.glUniformMatrix4fv(modelview_loc, 1, gl.GL_FALSE, modelview.T)
 
         # 図形を描画する

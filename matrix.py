@@ -107,6 +107,24 @@ def look_at(ex, ey, ez, gx, gy, gz, ux, uy, uz):
     return rv @ tv
 
 
+# 直交投影変換行列を作成する
+def orthogonal(left, right, bottom, top, z_near, z_far):
+    dx = right - left
+    dy = top - bottom
+    dz = z_far - z_near
+    if dx != 0.0 and dy != 0.0 and dz != 0.0:
+        t = identity()
+        t[0, 0] = 2.0 / dx
+        t[1, 1] = 2.0 / dy
+        t[2, 2] = -2.0 / dz
+        t[0, 3] = -(right + left) / dx
+        t[1, 3] = -(top + bottom) / dy
+        t[2, 3] = -(z_far + z_near) / dz
+        return t
+    else:
+        return np.zeros((4, 4))
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG,
@@ -119,3 +137,5 @@ if __name__ == "__main__":
     logging.info(identity() @ translate(2, 3, 4))  # @ は内積の演算子
     logging.info(translate(2, 3, 4) @ scale(5, 6, 7))
     logging.info(translate(2, 3, 4) @ scale(5, 6, 7) @ rotate(math.pi, 2, 3, 4))
+    logging.info(np.zeros((4, 4)))
+    logging.info(orthogonal(-3.2, 3.2, -2.4, 2.4, 1.0, 10.0))
