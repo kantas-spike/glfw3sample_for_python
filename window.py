@@ -23,6 +23,8 @@ class Window:
 
         # ウィンドウサイズ変更時のコールバック設定
         glfw.set_window_size_callback(self.window, Window.resize)
+        # マウスホイール操作時に呼び出す処理の登録
+        glfw.set_scroll_callback(self.window, Window.wheel)
 
         # このインスタンスの this ポインタを記録しておく
         # (glfwのwindowと、本クラスのインスタンス(self)を関連付ける)
@@ -87,3 +89,10 @@ class Window:
         if context:
             context.size[0] = width
             context.size[1] = height
+
+    @staticmethod
+    def wheel(window, x, y):
+        # glfwのwindowに関連付いたインスタンスを取得する
+        context: Window = glfw.get_window_user_pointer(window)
+        if context:
+            context.scale += y
