@@ -57,7 +57,7 @@ class Window:
     # 描画ループ継続判定
     def should_close(self):
         # イベントを取り出す
-        glfw.wait_events()
+        glfw.poll_events()
 
         # キーボードの状態を調べる
         if glfw.get_key(self.window, glfw.KEY_LEFT) != glfw.RELEASE:
