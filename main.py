@@ -7,6 +7,7 @@ import OpenGL.GL as gl
 import numpy as np
 
 from shape import Shape
+from window import Window
 
 
 def setup_logger(name):
@@ -131,18 +132,10 @@ def main():
     glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
 
     # ウィンドウを作成する
-    window = glfw.create_window(640, 480, "Hello!", None, None)
-    if not window:
+    window = Window(640, 480, "Hello!")
+    if window.has_error():
         logger.error("Can't create GLFW window.")
         return 1
-
-    # 作成したウィンドウを OpenGL の処理対象にする
-    glfw.make_context_current(window)
-
-    # pyOpenGLでは、glewは不要のようだ??
-
-    # 作成したウィンドウに対する設定
-    glfw.swap_interval(1)
 
     # 背景色を指定する
     gl.glClearColor(1.0, 1.0, 1.0, 0.0)
@@ -154,7 +147,7 @@ def main():
     shape = Shape(rectangle_vertex)
 
     # ウィンドウが開いている間繰り返す
-    while glfw.window_should_close(window) == gl.GL_FALSE:
+    while not window.should_close():
         # ウィンドウを消去する
         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
 
@@ -164,11 +157,8 @@ def main():
         # 図形を描画する
         shape.draw()
 
-        # カラーバッファを入れ替える
-        glfw.swap_buffers(window)
-
-        # イベントを取り出す
-        glfw.wait_events()
+        # カラーバッファを入れ替えてイベントを取り出す
+        window.swap_buffers()
 
     return 0
 
