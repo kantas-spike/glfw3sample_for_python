@@ -9,6 +9,8 @@
 また、本書のサンプルコードは、GitHub上に公開されています。
 
 - [tokoik/glfw3sample: 「GLFWによるOpenGL入門」のサンプルプログラム](https://github.com/tokoik/glfw3sample)
+  - macOS、vscode環境用にサンプルコードをビルドできるようにしたリポジトリ
+    - [kantas-spike/glfw3sample: 「GLFWによるOpenGL入門」のサンプルプログラム](https://github.com/kantas-spike/glfw3sample)
 
 本書は、GLSL(OpenGL Shading Language)によるプログラマブルシェーダーを使い、CGの理論を実際に手を動かして学ぶ(写経)ことができます。
 
