@@ -146,6 +146,7 @@ def main():
     # uniform 変数の場所を取得する
     size_loc = gl.glGetUniformLocation(program, "size")
     scale_loc = gl.glGetUniformLocation(program, "scale")
+    location_loc = gl.glGetUniformLocation(program, "location")
 
     # 図形データを作成する
     shape = Shape(rectangle_vertex)
@@ -161,6 +162,7 @@ def main():
         # uniform 変数に値を設定する
         gl.glUniform2fv(size_loc, 1, window.size)
         gl.glUniform1f(scale_loc, window.scale)
+        gl.glUniform2fv(location_loc, 1, window.location)
 
         # 図形を描画する
         shape.draw()
