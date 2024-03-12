@@ -69,7 +69,9 @@ class Window:
             # logger.info(f"cursor: {x, y} => loc: {self.location}")
 
         # ウィンドウを閉じる必要がなければ true を返す
-        return glfw.window_should_close(self.window)
+        return glfw.window_should_close(self.window) or glfw.get_key(
+            self.window, glfw.KEY_ESCAPE
+        )
 
     # ダブルバッファリング
     def swap_buffers(self):
