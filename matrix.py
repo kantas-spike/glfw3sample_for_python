@@ -144,6 +144,20 @@ def frustum(left, right, bottom, top, z_near, z_far):
     return t
 
 
+# 画角を指定して透視投影変換行列を作成する
+def perspective(fovy, aspect, z_near, z_far):
+    dz = z_far - z_near
+    t = np.zeros((4, 4))
+    if dz != 0.0:
+        f = 1.0 / math.tan(fovy * 0.5)
+        t[0, 0] = f / aspect
+        t[1, 1] = f
+        t[2, 2] = -(z_far + z_near) / dz
+        t[2, 3] = -2 * z_far * z_near / dz
+        t[3, 2] = -1.0
+    return t
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG,

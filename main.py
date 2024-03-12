@@ -161,10 +161,9 @@ def main():
 
         # 直交投影変換行列を求める
         size = window.size
-        scale = window.scale * 2.0
-        w = size[0] / scale
-        h = size[1] / scale
-        projection = matrix.frustum(-w, w, -h, h, 1.0, 10.0)
+        fovy = window.scale * 0.01
+        aspect = size[0] / size[1]
+        projection = matrix.perspective(fovy, aspect, 1.0, 10.0)
 
         # モデル変換行列を求める
         locaion = window.location
