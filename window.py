@@ -10,6 +10,8 @@ class Window:
     def __init__(self, width, height, title="Hello!") -> None:
         # window作成
         self.window = self.setup_window(width, height, title)
+        # 縦横比
+        self.aspect = width / height
 
         if not self.window:
             logger.error("Can't create GLFW window.")
@@ -17,6 +19,10 @@ class Window:
 
         # ウィンドウサイズ変更時のコールバック設定
         glfw.set_window_size_callback(self.window, Window.resize)
+
+        # このインスタンスの this ポインタを記録しておく
+        # (glfwのwindowと、本クラスのインスタンス(self)を関連付ける)
+        glfw.set_window_user_pointer(self.window, self)
 
         # ウィンドウサイズの初期設定
         Window.resize(self.window, width, height)
@@ -61,3 +67,8 @@ class Window:
         w, h = glfw.get_framebuffer_size(window)
         # フレームバッファ全体をビューポートにする
         gl.glViewport(0, 0, w, h)
+
+        # glfwのwindowに関連付いたインスタンスを取得する
+        context: Window = glfw.get_window_user_pointer(window)
+        if context:
+            context.aspect = width / height

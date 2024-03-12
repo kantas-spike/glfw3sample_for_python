@@ -143,6 +143,9 @@ def main():
     # プログラムオブジェクトを作成する
     program = load_program("point.vert", "point.frag")
 
+    # uniform 変数の場所を取得する
+    aspect_loc = gl.glGetUniformLocation(program, "aspect")
+
     # 図形データを作成する
     shape = Shape(rectangle_vertex)
 
@@ -153,6 +156,9 @@ def main():
 
         # シェーダプログラムの使用開始
         gl.glUseProgram(program)
+
+        # uniform 変数に値を設定する
+        gl.glUniform1f(aspect_loc, window.aspect)
 
         # 図形を描画する
         shape.draw()
