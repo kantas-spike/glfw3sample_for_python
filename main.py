@@ -144,7 +144,8 @@ def main():
     program = load_program("point.vert", "point.frag")
 
     # uniform 変数の場所を取得する
-    aspect_loc = gl.glGetUniformLocation(program, "aspect")
+    size_loc = gl.glGetUniformLocation(program, "size")
+    scale_loc = gl.glGetUniformLocation(program, "scale")
 
     # 図形データを作成する
     shape = Shape(rectangle_vertex)
@@ -158,7 +159,8 @@ def main():
         gl.glUseProgram(program)
 
         # uniform 変数に値を設定する
-        gl.glUniform1f(aspect_loc, window.aspect)
+        gl.glUniform2fv(size_loc, 1, window.size)
+        gl.glUniform1f(scale_loc, window.scale)
 
         # 図形を描画する
         shape.draw()

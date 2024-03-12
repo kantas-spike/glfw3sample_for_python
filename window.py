@@ -10,8 +10,10 @@ class Window:
     def __init__(self, width, height, title="Hello!") -> None:
         # window作成
         self.window = self.setup_window(width, height, title)
-        # 縦横比
-        self.aspect = width / height
+        # ウィンドウのサイズ
+        self.size = [width, height]
+        # ワールド座標系に対するデバイス座標系の拡大率
+        self.scale = 100.0
 
         if not self.window:
             logger.error("Can't create GLFW window.")
@@ -71,4 +73,5 @@ class Window:
         # glfwのwindowに関連付いたインスタンスを取得する
         context: Window = glfw.get_window_user_pointer(window)
         if context:
-            context.aspect = width / height
+            context.size[0] = width
+            context.size[1] = height
