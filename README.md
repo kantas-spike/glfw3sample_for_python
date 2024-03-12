@@ -288,7 +288,7 @@ python main.py
 
 step00〜step40までコードをPython化
 
-- [x] step00
+- [x] step00: python main.pyで起動できる、空のプログラムを作成.
 - [ ] step01
 - [ ] step02
 - [ ] step03
