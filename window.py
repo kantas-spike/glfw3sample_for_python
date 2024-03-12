@@ -59,6 +59,16 @@ class Window:
         # イベントを取り出す
         glfw.wait_events()
 
+        # キーボードの状態を調べる
+        if glfw.get_key(self.window, glfw.KEY_LEFT) != glfw.RELEASE:
+            self.location[0] -= 2.0 / self.size[0]
+        elif glfw.get_key(self.window, glfw.KEY_RIGHT) != glfw.RELEASE:
+            self.location[0] += 2.0 / self.size[0]
+        if glfw.get_key(self.window, glfw.KEY_DOWN) != glfw.RELEASE:
+            self.location[1] -= 2.0 / self.size[1]
+        elif glfw.get_key(self.window, glfw.KEY_UP) != glfw.RELEASE:
+            self.location[1] += 2.0 / self.size[1]
+
         # マウスの左ボタンの状態を調べる
         if glfw.get_mouse_button(self.window, glfw.MOUSE_BUTTON_1) != glfw.RELEASE:
             # マウスカーソルの位置を取得する
